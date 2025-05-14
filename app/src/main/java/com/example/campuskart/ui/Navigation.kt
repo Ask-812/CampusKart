@@ -16,5 +16,9 @@ fun Navigation() {
         composable("order") { OrderScreen(navController) }
         composable("delivery") { DeliveryScreen(navController) }
         composable("payment") { PaymentScreen(navController) }
+        composable("select_location/{type}") { backStackEntry ->
+            val type = backStackEntry.arguments?.getString("type") ?: "pickup"
+            LocationScreen(navController, type = type)
+        }
     }
 }
