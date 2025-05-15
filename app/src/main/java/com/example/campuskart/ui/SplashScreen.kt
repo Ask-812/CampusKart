@@ -31,7 +31,7 @@ fun SplashScreen(navController: NavController) {
         initialValue = 0f,
         targetValue = 1f,
         animationSpec = infiniteRepeatable(
-            animation = tween(1000, easing = LinearEasing),
+            animation = tween(3000, easing = LinearEasing),
             repeatMode = RepeatMode.Reverse
         )
     )
@@ -61,7 +61,7 @@ fun SplashScreen(navController: NavController) {
             contentAlignment = Alignment.Center
         ) {
             Text(
-                text = "CampusGo",
+                text = "CampusKart",
                 fontSize = 36.sp,
                 fontWeight = FontWeight.Bold,
                 color = Color.White.copy(alpha = fadeAnim.value)
