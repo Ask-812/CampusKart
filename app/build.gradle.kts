@@ -80,6 +80,7 @@ dependencies {
     implementation("com.google.android.gms:play-services-maps:18.2.0") // Base Maps SDK
     implementation("com.google.maps.android:maps-compose:2.11.4") // Compose utilities for Maps
     implementation("com.google.android.libraries.places:places:3.3.0")
+    implementation("androidx.appcompat:appcompat:1.7.0")
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)

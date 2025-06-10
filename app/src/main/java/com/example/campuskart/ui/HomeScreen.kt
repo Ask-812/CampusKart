@@ -28,7 +28,7 @@ fun HomeScreen(navController: NavController) {
         if(selectTab == 0){
             OrderScreen(navController, viewModel())
         } else{
-            DeliveryScreen(navController)
+            DeliveryScreen(navController, viewModel())
         }
         }
     }
