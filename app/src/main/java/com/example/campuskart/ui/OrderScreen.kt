@@ -32,16 +32,25 @@ class OrderViewModel : ViewModel() {
 
     var dropLatLng by mutableStateOf<LatLng?>(null)
     var dropDetails by mutableStateOf("")
+
+    var orderItems = mutableStateListOf(OrderItem("","", "pcs"))
+    fun reset() {
+        pickupLatLng = null
+        pickupDetails = ""
+        dropLatLng = null
+        dropDetails = ""
+        orderItems.clear()
+        orderItems.add(OrderItem("", "", "pcs"))
+    }
 }
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun OrderScreen(navController: NavController) {
-    var orderItems by remember { mutableStateOf(mutableStateListOf(OrderItem("", "", "pcs"))) }
+fun OrderScreen(navController: NavController, viewModel: OrderViewModel) {
     var pickupLocation by remember { mutableStateOf("") }
     var dropLocation by remember { mutableStateOf("") }
-    var viewmodel by remember { mutableStateOf(OrderViewModel()) }
-
+    var viewmodel: OrderViewModel = viewModel()
+    var orderItems = viewmodel.orderItems
 
 
     Column(
@@ -165,10 +174,10 @@ fun QuantityWithUnitRow(
     onUnitChange: (String) -> Unit,
     modifier: Modifier
 ) {
-    val unitOptions = listOf("pcs", "g", "L", "mL", "kg", "dzn", "pack", "box")
+    val unitOptions = listOf("pcs", "g", "L", "mL", "kg", "dzn", "pack", "box", "plate")
     var expanded by remember { mutableStateOf(false) }
 
-    Row(modifier = modifier, verticalAlignment = Alignment.Bottom) { //to be looked upon
+    Row(modifier = modifier, verticalAlignment = Alignment.Bottom) {
         OutlinedTextField(
             value = quantity,
             onValueChange = { newValue ->

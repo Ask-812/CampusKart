@@ -1,6 +1,7 @@
 package com.example.campuskart.ui
 
 import androidx.compose.runtime.Composable
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
@@ -13,12 +14,17 @@ fun Navigation() {
     NavHost(navController = navController, startDestination = "splash") {
         composable("splash") { SplashScreen(navController) }
         composable("home") { HomeScreen(navController) }
-        composable("order") { OrderScreen(navController) }
         composable("delivery") { DeliveryScreen(navController) }
         composable("payment") { PaymentScreen(navController) }
+        composable("order") {
+            val orderViewModel: OrderViewModel = viewModel()
+            OrderScreen(navController, orderViewModel)
+        }
+
         composable("select_location/{type}") { backStackEntry ->
             val type = backStackEntry.arguments?.getString("type") ?: "pickup"
-            LocationScreen(navController, type = type)
+            val orderViewModel: OrderViewModel = viewModel() // ← same ViewModel is used
+            LocationScreen(navController, type, orderViewModel)
         }
     }
 }

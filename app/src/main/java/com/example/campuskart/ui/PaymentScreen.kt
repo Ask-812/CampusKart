@@ -15,13 +15,16 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
+import com.example.campuskart.ui.OrderScreen
 
 @Composable
 fun PaymentScreen(navController: NavController, orderAmount: Double = 100.0) {
     val deliveryCharge = 20.0
     val platformFee = 5.0
     val totalAmount = orderAmount + deliveryCharge + platformFee
+    val orderViewModel: OrderViewModel = viewModel()
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -41,7 +44,8 @@ fun PaymentScreen(navController: NavController, orderAmount: Double = 100.0) {
 
         Button(
             onClick = {
-                // TODO: Handle Payment Logic
+                orderViewModel.reset()
+                navController.navigate("order")
             },
             colors = ButtonDefaults.buttonColors(containerColor = Color(0xFF2AE2C0)), // Aqua Green Button
             modifier = Modifier.fillMaxWidth()

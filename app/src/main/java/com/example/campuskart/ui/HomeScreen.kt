@@ -13,6 +13,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 
 @Composable
@@ -25,7 +26,7 @@ fun HomeScreen(navController: NavController) {
     ) {paddingValues ->
         Box(modifier = Modifier.fillMaxSize().padding(paddingValues)) {
         if(selectTab == 0){
-            OrderScreen(navController)
+            OrderScreen(navController, viewModel())
         } else{
             DeliveryScreen(navController)
         }
