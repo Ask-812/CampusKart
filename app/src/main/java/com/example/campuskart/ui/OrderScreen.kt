@@ -10,6 +10,7 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowDropDown
 import androidx.compose.material.icons.filled.Delete
+import androidx.compose.material.icons.filled.LocationOn
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
@@ -43,7 +44,47 @@ class OrderViewModel : ViewModel() {
         orderItems.add(OrderItem("", "", "pcs"))
     }
 }
+// Add this new Composable function in OrderScreen.kt (or a new UI utils file)
 
+@Composable
+fun LocationDisplayButton(
+    label: String, // e.g., "Pickup Location"
+    details: String, // e.g., viewModel.pickupDetails
+    isLocationSet: Boolean, // e.g., viewModel.pickupLatLng != null
+    onSelectClick: () -> Unit,
+    modifier: Modifier = Modifier
+) {
+    Column(modifier = modifier.fillMaxWidth()) {
+        Button(
+            onClick = onSelectClick,
+            modifier = Modifier.fillMaxWidth(),
+            colors = ButtonDefaults.buttonColors(Color(0xFF2AE2C0))
+        ) {
+            Text(
+                text = if (isLocationSet) "Change $label" else "Select $label",
+                color = Color.Black,
+                fontSize = 18.sp
+            )
+        }
+        if (isLocationSet && details.isNotBlank()) {
+            Spacer(modifier = Modifier.height(4.dp))
+            Row(verticalAlignment = Alignment.CenterVertically) {
+                Icon(
+                    imageVector = Icons.Filled.LocationOn,
+                    contentDescription = "$label details",
+                    modifier = Modifier.size(16.dp),
+                    tint = Color.Gray
+                )
+                Spacer(modifier = Modifier.width(4.dp))
+                Text(
+                    text = details,
+                    fontSize = 14.sp,
+                    color = Color.DarkGray
+                )
+            }
+        }
+    }
+}
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun OrderScreen(navController: NavController, viewModel: OrderViewModel) {
@@ -116,39 +157,23 @@ fun OrderScreen(navController: NavController, viewModel: OrderViewModel) {
         }
 
         Spacer(modifier = Modifier.height(8.dp))
+        LocationDisplayButton(
+            label = "Pickup Location",
+            details = viewModel.pickupDetails,
+            isLocationSet = viewModel.pickupLatLng != null, // Or check viewModel.pickupDetails.isNotBlank()
+            onSelectClick = { navController.navigate("select_location/pickup") }
+        )
 
-        Button(
-            onClick = { navController.navigate("select_location/pickup") },
-            modifier = Modifier.fillMaxWidth(),
-            colors = ButtonDefaults.buttonColors(Color(0xFF2AE2C0))
-        ) {
-            Text(
-                text = if (viewmodel.pickupLatLng != null)
-                    "Pickup: ${viewmodel.pickupDetails}"
-                else "Select Pickup Location",
-                color = Color.Black,
-                fontSize = 18.sp
-            )
-        }
+        Spacer(modifier = Modifier.height(16.dp)) // Increased spacing
 
-        Spacer(modifier = Modifier.height(8.dp))
+        LocationDisplayButton(
+            label = "Drop Location",
+            details = viewModel.dropDetails,
+            isLocationSet = viewModel.dropLatLng != null, // Or check viewModel.dropDetails.isNotBlank()
+            onSelectClick = { navController.navigate("select_location/drop") }
+        )
 
-        Button(
-            onClick = { navController.navigate("select_location/drop") },
-            modifier = Modifier.fillMaxWidth(),
-            colors = ButtonDefaults.buttonColors(Color(0xFF2AE2C0))
-        ) {
-            Text(
-                text = if (viewmodel.dropLatLng != null)
-                    "Drop: ${viewmodel.dropDetails}"
-                else "Select Drop Location",
-                color = Color.Black,
-                fontSize = 18.sp
-            )
-        }
-
-
-        Spacer(modifier = Modifier.height(16.dp))
+        Spacer(modifier = Modifier.height(24.dp)) // Increased spacing before Place Order
 
         Button(
             onClick = {

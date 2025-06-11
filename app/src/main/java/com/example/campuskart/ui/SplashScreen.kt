@@ -14,6 +14,8 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -24,9 +26,12 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.example.campuskart.R
 import kotlinx.coroutines.delay
+import androidx.compose.runtime.getValue
+import androidx.lifecycle.viewmodel.compose.viewModel
+import com.example.campuskart.viewmodel.AuthViewModel
 
 @Composable
-fun SplashScreen(navController: NavController) {
+fun SplashScreen(navController: NavController, authViewModel: AuthViewModel = viewModel()) {
     val fadeAnim = rememberInfiniteTransition().animateFloat(
         initialValue = 0f,
         targetValue = 1f,
@@ -36,14 +41,33 @@ fun SplashScreen(navController: NavController) {
         )
     )
 
-    // Navigate to home screen after 3 seconds
-    LaunchedEffect(Unit) {
-        delay(3000)
-        navController.navigate("home") {
-            popUpTo("splash") { inclusive = true }
+
+    val authState by authViewModel.authState.collectAsState()
+
+    LaunchedEffect(Unit) { // Use Unit so this runs once on composition
+        delay(2000) // Keep a small delay for splash visibility
+
+        // Decision point:
+        // authState.currentUser will be updated by the AuthViewModel's init block
+        // or subsequent login/logout actions.
+        // We need to wait for the initial auth state to be potentially loaded.
+        // A more robust way might involve observing a specific "initialAuthCheckCompleted" flag in ViewModel
+        // For simplicity, we assume after a short delay, authState.currentUser is reflective of persisted state.
+
+        if (authState.currentUser != null) {
+            // User is logged in
+            navController.navigate("home") {
+                popUpTo("splash") { inclusive = true }
+                launchSingleTop = true
+            }
+        } else {
+            // User is not logged in
+            navController.navigate("login") {
+                popUpTo("splash") { inclusive = true }
+                launchSingleTop = true
+            }
         }
     }
-
     // Splash Screen UI
     Box(modifier = Modifier.fillMaxSize())
     {

@@ -42,7 +42,18 @@ fun DeliveryScreen(navController: NavController, viewModel: OrderViewModel) {
             LazyColumn(modifier = Modifier.fillMaxSize()) {
                 items(gigs, key = { it.id }) { gig ->
                 Log.d("DeliveryScreen", "Rendering gig: ID='${gig.id}', Pickup='${gig.pickupLocationName}', Drop='${gig.dropLocationName}'")
-                GigListItem(gig = gig, {})
+                GigListItem(gig = gig, {
+                    val itemsString = gig.items.joinToString(separator = "\n") {
+                        "- ${it.name} (${it.quantity} ${it._unit})"
+                    }.encodeUrl() // Encode
+                    val pickup = gig.pickupLocationName.encodeUrl()
+                    val drop = gig.dropLocationName.encodeUrl()
+                    val requester = gig.requesterName.encodeUrl()
+
+                    navController.navigate(
+                        "gig_detail/${gig.id}/$itemsString/$pickup/$drop/$requester"
+                    )
+                })
                 Divider()
             }
             }

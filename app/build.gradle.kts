@@ -2,6 +2,7 @@ plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
     alias(libs.plugins.kotlin.compose)
+    id("com.google.gms.google-services")
 }
 
 android {
@@ -63,7 +64,19 @@ android {
 //    implementation("com.google.maps.android:maps-compose:2.11.4")
 //
 //}
+buildscript {
+    // ...
+    dependencies {
+        // ... other classpath dependencies
+        classpath("com.google.gms:google-services:4.4.2") // Check for the latest version
+    }
+}
 dependencies {
+    implementation(platform("com.google.firebase:firebase-bom:33.15.0"))
+    implementation("com.google.firebase:firebase-auth-ktx")
+    implementation("com.google.firebase:firebase-analytics")
+    implementation("com.google.firebase:firebase-firestore-ktx") // Add this line for Firestore
+
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.lifecycle.runtime.ktx)
     implementation(libs.androidx.activity.compose)
@@ -73,7 +86,6 @@ dependencies {
     implementation(libs.androidx.ui.tooling.preview)
     implementation(libs.androidx.material3)
 
-    // Navigation
     implementation("androidx.navigation:navigation-compose:2.7.7") // Keep this if you use it
 
     // Google Maps Compose
