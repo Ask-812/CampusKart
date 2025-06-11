@@ -25,7 +25,7 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import com.google.android.gms.maps.model.LatLng
 
-data class OrderItem(var name: String, var quantity: String, var _unit: String)
+data class OrderItem(var name: String = "", var quantity: String = "", var _unit: String = "pcs")
 
 class OrderViewModel : ViewModel() {
     var pickupLatLng by mutableStateOf<LatLng?>(null)
