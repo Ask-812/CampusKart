@@ -1,6 +1,7 @@
 // In DeliveryScreen.kt
 package com.example.campuskart.ui
 
+import android.util.Log
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
@@ -39,10 +40,11 @@ fun DeliveryScreen(navController: NavController, viewModel: OrderViewModel) {
             }
         } else {
             LazyColumn(modifier = Modifier.fillMaxSize()) {
-                items(gigs, key = { it.id }) { gig -> // Use a key for better performance
-                    GigListItem(gig = gig, {})
-                    Divider()
-                }
+                items(gigs, key = { it.id }) { gig ->
+                Log.d("DeliveryScreen", "Rendering gig: ID='${gig.id}', Pickup='${gig.pickupLocationName}', Drop='${gig.dropLocationName}'")
+                GigListItem(gig = gig, {})
+                Divider()
+            }
             }
         }
     }

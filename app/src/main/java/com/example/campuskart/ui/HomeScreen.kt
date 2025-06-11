@@ -17,7 +17,7 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 
 @Composable
-fun HomeScreen(navController: NavController) {
+fun HomeScreen(navController: NavController, viewModel: OrderViewModel) {
     var selectTab by remember { mutableStateOf(0) }
     Scaffold(
         bottomBar = {
@@ -26,9 +26,9 @@ fun HomeScreen(navController: NavController) {
     ) {paddingValues ->
         Box(modifier = Modifier.fillMaxSize().padding(paddingValues)) {
         if(selectTab == 0){
-            OrderScreen(navController, viewModel())
+            OrderScreen(navController, viewModel)
         } else{
-            DeliveryScreen(navController, viewModel())
+            DeliveryScreen(navController, viewModel)
         }
         }
     }

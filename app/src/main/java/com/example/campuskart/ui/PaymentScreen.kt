@@ -1,5 +1,6 @@
 // In PaymentScreen.kt
 // ... imports ...
+import android.util.Log
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -40,6 +41,9 @@ fun PaymentScreen(
             onClick = {
                 // 1. Get the items list (it's already List<OrderItem>)
                 val currentOrderItems = orderViewModel.orderItems.toList() // Create a snapshot copy
+                Log.d("PaymentScreen", "OrderVM Pickup in Payment: '${orderViewModel.pickupDetails}'")
+                Log.d("PaymentScreen", "OrderVM Drop in Payment: '${orderViewModel.dropDetails}'")
+                Log.d("PaymentScreen", "OrderVM Items in Payment: ${orderViewModel.orderItems.joinToString()}")
 
                 // 2. Create the AvailableGig object
                 val newGig = AvailableGig(
@@ -48,7 +52,7 @@ fun PaymentScreen(
                     dropLocationName = orderViewModel.dropDetails.ifBlank { "Not Specified" },   // Fallback
                     requesterName = "A Student" // Placeholder for now
                 )
-
+                println("New Gig: $newGig")
                 // 3. Add to the repository
                 AvailableGigsRepository.addGig(newGig)
 

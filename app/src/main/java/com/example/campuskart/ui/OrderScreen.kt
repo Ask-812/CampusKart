@@ -49,7 +49,7 @@ class OrderViewModel : ViewModel() {
 fun OrderScreen(navController: NavController, viewModel: OrderViewModel) {
     var pickupLocation by remember { mutableStateOf("") }
     var dropLocation by remember { mutableStateOf("") }
-    var viewmodel: OrderViewModel = viewModel()
+    var viewmodel: OrderViewModel = viewModel
     var orderItems = viewmodel.orderItems
 
 

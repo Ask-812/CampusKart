@@ -12,21 +12,21 @@ import com.example.campuskart.ui.*
 @Composable
 fun Navigation() {
     val navController: NavHostController = rememberNavController()
+    val sharedOrderViewModel: OrderViewModel = viewModel()
     NavHost(navController = navController, startDestination = "splash") {
-        composable("splash") { SplashScreen(navController) }
-        composable("home") { HomeScreen(navController) }
-        composable("delivery") { DeliveryScreen(navController, viewModel()) }
 
-        composable("payment") { PaymentScreen(navController, 100.00, viewModel()) }
+        composable("splash") { SplashScreen(navController) }
+        composable("home") { HomeScreen(navController, sharedOrderViewModel) }
+        composable("delivery") { DeliveryScreen(navController, sharedOrderViewModel) }
+
+        composable("payment") { PaymentScreen(navController, 100.00, sharedOrderViewModel) }
         composable("order") {
-            val orderViewModel: OrderViewModel = viewModel()
-            OrderScreen(navController, orderViewModel)
+            OrderScreen(navController, sharedOrderViewModel)
         }
 
         composable("select_location/{type}") { backStackEntry ->
             val type = backStackEntry.arguments?.getString("type") ?: "pickup"
-            val orderViewModel: OrderViewModel = viewModel() // ← same ViewModel is used
-            LocationScreen(navController, type, orderViewModel)
+            LocationScreen(navController, type, sharedOrderViewModel)
         }
     }
 }

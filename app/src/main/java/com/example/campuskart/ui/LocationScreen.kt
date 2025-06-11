@@ -354,11 +354,11 @@ fun LocationScreen(
                 if (type == "pickup") {
                     viewModel.pickupLatLng = selectedLocation
                     viewModel.pickupDetails = finalDetailsToSave
-                    Log.d(LOCATION_SCREEN_TAG, "Saving Pickup: $selectedLocation, Details: $finalDetailsToSave")
+                    Log.d(LOCATION_SCREEN_TAG, "Saving Pickup: ${viewModel.pickupLatLng}, Details: ${viewModel.pickupDetails}")
                 } else {
                     viewModel.dropLatLng = selectedLocation
                     viewModel.dropDetails = finalDetailsToSave
-                    Log.d(LOCATION_SCREEN_TAG, "Saving Drop: $selectedLocation, Details: $finalDetailsToSave")
+                    Log.d(LOCATION_SCREEN_TAG, "Saving Drop: ${viewModel.dropLatLng}, Details: ${viewModel.dropDetails} ")
                 }
                 navController.popBackStack()
             },

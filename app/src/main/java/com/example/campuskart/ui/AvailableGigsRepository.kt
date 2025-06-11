@@ -1,6 +1,7 @@
 // In AvailableGigsRepository.kt
 package com.example.campuskart
 
+import android.util.Log
 import androidx.compose.runtime.mutableStateListOf
 import com.example.campuskart.ui.OrderItem // Ensure this is the correct import for your OrderItem
 
@@ -17,8 +18,8 @@ data class AvailableGig(
 object AvailableGigsRepository {
     // ... (rest of the object remains the same)
     val availableGigs = mutableStateListOf<AvailableGig>()
-
     fun addGig(gig: AvailableGig) {
+        Log.d("GigsRepository", "addGig called with: Pickup='${gig.pickupLocationName}', Drop='${gig.dropLocationName}', Items='${gig.items.joinToString()}'")
         availableGigs.add(0, gig)
     }
 
