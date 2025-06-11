@@ -49,7 +49,7 @@ fun HomeScreen(navController: NavController, viewModel: OrderViewModel) {
                     if (authState.currentUser != null) { // Show logout only if logged in
                         Button(
                             onClick = { authViewModel.logoutUser() },
-                            colors = ButtonDefaults.buttonColors(containerColor = Color.Reda),
+                            colors = ButtonDefaults.buttonColors(containerColor = Color.Red),
                             modifier = Modifier.padding(end = 8.dp)
                         ) {
                             Text("Logout", color = Color.White)
