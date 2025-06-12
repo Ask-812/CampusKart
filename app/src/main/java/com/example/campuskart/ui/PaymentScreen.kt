@@ -108,7 +108,16 @@ fun PaymentScreen(
             onClick = {
                 if (addGigState is GigViewModel.AddGigResult.Loading) return@Button // Prevent multiple clicks
 
-                val currentUserDisplayName = authState.currentUser?.displayName ?: "Anonymous User"
+
+                if (authState.currentUser == null) {
+                    Toast.makeText(context, "Please log in to post an order.", Toast.LENGTH_SHORT).show()
+                    navController.navigate("login"){
+                        popUpTo(navController.graph.findStartDestination().id)
+                        launchSingleTop = true
+                    }
+                    return@Button
+                }
+//                val currentUserDisplayName = authState.currentUser?.displayName ?: "Anonymous User"
                 // Ensure there's at least one valid item
                 val validItems = orderViewModel.orderItems.filter { it.name.isNotBlank() && it.quantity.isNotBlank() }
                 if (validItems.isEmpty()) {
@@ -124,8 +133,7 @@ fun PaymentScreen(
                 gigViewModel.addGig(
                     items = validItems, // Pass the valid list of OrderItems
                     pickupLocationName = orderViewModel.pickupDetails,
-                    dropLocationName = orderViewModel.dropDetails,
-                    requesterDisplayName = currentUserDisplayName
+                    dropLocationName = orderViewModel.dropDetails
                 )
                 // No longer add to local repository:
                 // AvailableGigsRepository.addGig(newGig)

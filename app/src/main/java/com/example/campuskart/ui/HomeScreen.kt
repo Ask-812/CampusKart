@@ -1,9 +1,13 @@
 package com.example.campuskart.ui
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Person
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.MaterialTheme
@@ -23,7 +27,11 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import com.example.campuskart.viewmodel.AuthViewModel
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.TopAppBar
+import androidx.compose.material3.TopAppBarDefaults
+import androidx.compose.ui.graphics.Brush
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun HomeScreen(navController: NavController, viewModel: OrderViewModel) {
@@ -43,20 +51,31 @@ fun HomeScreen(navController: NavController, viewModel: OrderViewModel) {
     }
     Scaffold(
         topBar = {
-            androidx.compose.material3.TopAppBar(
-                title = { Text("CampusKart") },
-                actions = {
-                    if (authState.currentUser != null) { // Show logout only if logged in
-                        Button(
-                            onClick = { authViewModel.logoutUser() },
-                            colors = ButtonDefaults.buttonColors(containerColor = Color.Red),
-                            modifier = Modifier.padding(end = 8.dp)
-                        ) {
-                            Text("Logout", color = Color.White)
+            val appBarBrush = Brush.verticalGradient(colors = listOf(Color(0xFF2AE2C0), Color.White))
+            Box(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .background(appBarBrush)
+            ){
+                androidx.compose.material3.TopAppBar(
+                    title = { Text("CampusKart") },
+                    actions = {
+                        IconButton(onClick = {
+                            navController.navigate("profile")
+                        }) {
+                            Icon(
+                                imageVector = Icons.Filled.Person,
+                                contentDescription = "Profile"
+                            )
                         }
-                    }
-                }
-            )
+                    },
+                    colors = TopAppBarDefaults.topAppBarColors(
+                        containerColor = Color.Transparent,
+                        titleContentColor = Color.Black,
+                        actionIconContentColor = Color.Black
+                    )
+                )
+            }
         },
         bottomBar = {
             BottomNavigationBar(selectTab) {selectTab = it }

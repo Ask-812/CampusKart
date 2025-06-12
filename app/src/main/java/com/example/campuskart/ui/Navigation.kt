@@ -31,6 +31,12 @@ fun Navigation() {
         composable("registration") {
             RegistrationScreen(navController = navController, authViewModel = authViewModel)
         }
+        composable("profile"){
+            ProfileScreen(navController = navController, authViewModel = authViewModel)
+        }
+        composable("my_orders"){
+            MyOrdersScreen(navController = navController, authViewModel = authViewModel, gigViewModel = viewModel())
+        }
         composable("home") { HomeScreen(navController, sharedOrderViewModel) }
         composable("delivery") { DeliveryScreen(navController, sharedOrderViewModel) }
         composable(
